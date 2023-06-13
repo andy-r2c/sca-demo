@@ -8,10 +8,13 @@ function hello() {
   console.log(Chalk.red(`Hello node.js!\nUsing ${process.version} node version.`));
 
   const myObj = { "foo": "bar", "fizz": "buzz" };
+  const newObj = { "f00: "b4r" };
 
   const maliciousObj = { "__proto__": { "oops": "It works !" }};
 
+  _.merge(newObj, maliciousObject);
   _.merge(myObj, maliciousObject);
+
 }
 
 hello();
